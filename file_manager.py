@@ -2,82 +2,96 @@ import sys
 import os
 import shutil
 import platform
+import pickle
 
-if __name__ == '__main__':
-    while True:
-        print('1. Создать папку')
-        print('2. Удалить файл/папку')
-        print('3. Копировать файл/папку')
-        print('4. Просмотр содержимого рабочей директории')
-        print('5. Просмотреть только папки')
-        print('6. Просмотреть только файлы')
-        print('7. Просмотреть информацию об ОС')
-        print('8. Создатель программы')
-        print('9. Играть в викторину')
-        print('10. Играть в банковский счет')
-        print('11. Смена рабочей дирректории*')
-        print('12. выход')
+while True:
+    print('1. РЎРѕР·РґР°С‚СЊ РїР°РїРєСѓ')
+    print('2. РЈРґР°Р»РёС‚СЊ С„Р°Р№Р»/РїР°РїРєСѓ')
+    print('3. РљРѕРїРёСЂРѕРІР°С‚СЊ С„Р°Р№Р»/РїР°РїРєСѓ')
+    print('4. РџСЂРѕСЃРјРѕС‚СЂ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ СЂР°Р±РѕС‡РµР№ РґРёСЂРµРєС‚РѕСЂРёРё')
+    print('5. РЎРѕС…СЂР°РЅРµРЅРёРµ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ СЂР°Р±РѕС‡РµР№ РґРёСЂРµРєС‚РѕСЂРёРё')
+    print('6. РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ РѕР± РћРЎ')
+    print('7. РЎРѕР·РґР°С‚РµР»СЊ РїСЂРѕРіСЂР°РјРјС‹')
+    print('8. РЎРјРµРЅР° СЂР°Р±РѕС‡РµР№ РґРёСЂСЂРµРєС‚РѕСЂРёРё*')
+    print('9. РІС‹С…РѕРґ (Рё РїСЂРѕРІРµСЂРєР° СЃРѕС…СЂР°РЅРµРЅРёСЏ)')
 
-        choice = input('Выберите пункт меню: \n')
-        if choice == '1':
-            folder = input('Введите имя папки: ')
-            if os.path.exists(f'{folder}'):
-                print('Такая папка уже есть!\n')
-            else:
-                os.mkdir(f'{folder}')
-                print('Папка создана!\n')
-        elif choice == '2':
-            del_folder = input('Введите имя папки: ')
-            if os.path.exists(f'{del_folder}'):
-                print(f'Папка {del_folder} удалена! ')
-                os.rmdir(f'{del_folder}')
-            else:
-                print('Папка не найдена!')
-        elif choice == '3':
-            copy_folder = input('Введите целевой папки: ')
-            if os.path.exists(f'{copy_folder}'):
-                print(f'Папка {copy_folder} скопирована, введите новое имя папки:')
-                new_folder = input()
-                shutil.copytree(f'{copy_folder}', f'{new_folder}')
-                print('Копия создана!\n')
-            else:
-                print('Папка не найдена!\n')
-        elif choice == '4':
-            print(os.listdir())
-        elif choice == '5': 
-            list_folders = []
-            list_files = []
-            for i in os.listdir():
-                if os.path.isdir(i):
-                    list_folders.append(i)
-                else:
-                    list_files.append(i)
+    choice = input('Р’С‹Р±РµСЂРёС‚Рµ РїСѓРЅРєС‚ РјРµРЅСЋ: \n')
 
-        elif choice == '6':
-            list_files = []
-            for i in os.listdir():
-                if os.path.isfile(i):
-                    list_files.append(i)
-            print(list_files)
-        elif choice == '7':
-            print(sys.platform)
-            print(os.name)
-            print(platform.uname())
-            print(platform.platform())
-            print(platform.architecture())
-            print(platform.system())
-        elif choice == '8':
-            print(f'Автор программы: {os.getlogin()}')
-        elif choice == '9':
-            pass
-        elif choice == '10':
-            pass
-        elif choice == '11':
-            print(f'Текущий катлог: {os.getcwd()}')
-            link = input('Введите новый путь: ')
-            os.chdir(link)
-            print(f'Текущий катлог: {os.getcwd()}')
-        elif choice == '12':
-            break
+    # СЃРѕР·РґР°С‚СЊ РїР°РїРєСѓ
+    if choice == '1':
+        folder = input('Р’РІРµРґРёС‚Рµ РёРјСЏ РїР°РїРєРё: ')
+        if os.path.exists(f'{folder}'):
+            print('РўР°РєР°СЏ РїР°РїРєР° СѓР¶Рµ РµСЃС‚СЊ!\n')
         else:
-            print('Неверный пункт меню')
+            os.mkdir(f'{folder}')
+            print('РџР°РїРєР° СЃРѕР·РґР°РЅР°!\n')
+
+    # СѓРґР°Р»РёС‚СЊ РїР°РїРєСѓ
+    elif choice == '2':
+        del_folder = input('Р’РІРµРґРёС‚Рµ РёРјСЏ РїР°РїРєРё: ')
+        if os.path.exists(f'{del_folder}'):
+            print(f'РџР°РїРєР° {del_folder} СѓРґР°Р»РµРЅР°! ')
+            os.rmdir(f'{del_folder}')
+        else:
+            print('РџР°РїРєР° РЅРµ РЅР°Р№РґРµРЅР°!')
+
+    # РєРѕРїРёСЂРѕРІР°С‚СЊ РїР°РїРєСѓ
+    elif choice == '3':
+        copy_folder = input('Р’РІРµРґРёС‚Рµ С†РµР»РµРІРѕР№ РїР°РїРєРё: ')
+        if os.path.exists(f'{copy_folder}'):
+            print(f'РџР°РїРєР° {copy_folder} СЃРєРѕРїРёСЂРѕРІР°РЅР°, РІРІРµРґРёС‚Рµ РЅРѕРІРѕРµ РёРјСЏ РїР°РїРєРё:')
+            new_folder = input()
+            shutil.copytree(f'{copy_folder}', f'{new_folder}')
+            print('РљРѕРїРёСЏ СЃРѕР·РґР°РЅР°!\n')
+        else:
+            print('РџР°РїРєР° РЅРµ РЅР°Р№РґРµРЅР°!\n')
+
+    # РїСЂРѕСЃРјРѕС‚СЂ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ СЂР°Р±РѕС‡РµР№ РґРёСЂСЂРµРєС‚РѕСЂРёРё
+    elif choice == '4':
+        print(os.listdir())
+
+    # СЃРѕС…СЂР°РЅРµРЅРёРµ СЃРїРёСЃРєР° СЂР°Р±РѕС‡РµР№ РґРёСЂСЂРµРєС‚РѕСЂРёРё
+    elif choice == '5':
+        list_folders = []
+        list_files = []
+        for i in os.listdir():
+            if os.path.isdir(i):
+                list_folders.append(i)
+            else:
+                list_files.append(i)
+        folders_dict = {
+            'files': list_files,
+            'folders': list_folders
+        }
+        with open('folders.txt', 'wb') as f:
+            pickle.dump(folders_dict, f)
+        print(folders_dict)
+
+    # СЃРІРµРґРµРЅРёСЏ Рѕ СЃРёСЃС‚РµРјРµ
+    elif choice == '6':
+        print(sys.platform)
+        print(os.name)
+        print(platform.uname())
+        print(platform.platform())
+        print(platform.architecture())
+        print(platform.system())
+
+    # Р°РІС‚РѕСЂ РїСЂРѕРіРё
+    elif choice == '7':
+        print(f'РђРІС‚РѕСЂ РїСЂРѕРіСЂР°РјРјС‹: {os.getlogin()}')
+
+    # СЃРјРµРЅР° РєР°С‚Р°Р»РѕРіР°
+    elif choice == '8':
+        print(f'РўРµРєСѓС‰РёР№ РєР°С‚Р»РѕРі: {os.getcwd()}')
+        link = input('Р’РІРµРґРёС‚Рµ РЅРѕРІС‹Р№ РїСѓС‚СЊ: ')
+        os.chdir(link)
+        print(f'РўРµРєСѓС‰РёР№ РєР°С‚Р»РѕРі: {os.getcwd()}')
+
+    # РІС‹С…РѕРґ
+    elif choice == '9':
+        with open('folders.txt', 'rb') as f:
+            result = pickle.load(f)
+            print(result)
+        break
+    else:
+        print('РќРµРІРµСЂРЅС‹Р№ РїСѓРЅРєС‚ РјРµРЅСЋ')
