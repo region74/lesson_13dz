@@ -9,11 +9,31 @@ def check_balance(has_money, price):
         return True
 
 
-while True:
+def read_balance():
     with open('balance.json', 'r') as f:
-        balance = json.load(f)
+        return int(json.load(f))
+
+
+def write_balance(balance):
+    with open('balance.json', 'w') as f:
+        json.dump(balance, f)
+        return None
+
+
+def read_list():
     with open('orders.json', 'r') as f:
-        list_payments = json.load(f)
+        return list(json.load(f))
+
+
+def write_list(list_payments):
+    with open('orders.json', 'w') as f:
+        json.dump(list_payments, f)
+        return None
+
+
+while True:
+    balance = read_balance()
+    list_payments = read_list()
 
     print('1. пополнение счета')
     print('2. покупка')
@@ -25,24 +45,17 @@ while True:
     if choice == '1':
         cost = int(input('Введите сумму: '))
         balance += cost
-        with open('balance.json', 'w') as f:
-            balance = json.dump(balance, f)
-
+        write_balance(balance)
     elif choice == '2':
         price = int(input('Введите стоимость покупки: '))
         if check_balance(balance, price):
             purchase_name = input('Введите название покупки: ')
             list_payments.append((purchase_name, price))
-            with open('orders.json', 'w') as f:
-                json.dump(list_payments, f)
+            write_list(list_payments)
             balance -= price
-            with open('balance.json', 'w') as f:
-                balance = json.dump(balance, f)
-
+            write_balance(balance)
     elif choice == '3':
-        with open('orders.json', 'r') as f:
-            list_payments = json.load(f)
-            print(list_payments)
+        print(read_list())
     elif choice == '4':
         break
     else:
